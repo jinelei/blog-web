@@ -1,23 +1,23 @@
 <template>
-  <div id="app">
-    <Header/>
-    <router-view/>
-  </div>
+    <div id="app">
+        <NavBar/>
+        <router-view/>
+    </div>
 </template>
 
 <script>
-import Header from '@/components/Header.vue'
+    import NavBar from '@/components/navbar'
 
-export default {
-  components: {
-    Header
-  }
-}
+    export default {
+        components: {
+            NavBar
+        }
+    }
 </script>
 
 <style lang="less">
-* {
-    margin: 0;
-    padding: 0;
-}
+    * {
+        margin: 0;
+        padding: 0;
+    }
 </style>
