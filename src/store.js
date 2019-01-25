@@ -7,18 +7,23 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        token: ''
+        token: '',
+        loginUser: {}
     },
     mutations: {
         login(state, token) {
-            state.token = token;
+            state.token = token
+        },
+        setLoginUser(state, user) {
+            state.loginUser = user
         },
         logout(state) {
-            state.token = '';
+            state.token = ''
         }
     },
     getters: {
         getToken: state => state.token,
+        getLoginUser: state => state.loginUser,
     },
     actions: {
         login({state, commit}, data) {
@@ -29,10 +34,14 @@ export default new Vuex.Store({
                         if (/^Bearer.*/.test(authorization)) {
                             let token = authorization.slice(7)
                             commit('login', token)
+                            if (!!res.data)
+                                commit('setLoginUser', res.data)
                             console.log('login success: ' + token)
                         }
+                        resolve(res)
+                    } else {
+                        reject(res)
                     }
-                    resolve(res)
                 }).catch(err => {
                     console.log("login failed: " + JSON.stringify((err)))
                     reject(err)
@@ -44,6 +53,7 @@ export default new Vuex.Store({
                 logout().then(res => {
                     console.log("logout success")
                     commit('logout')
+                    commit('setLoginUser', {})
                     resolve("logout")
                 }).catch(err => {
                     console.log("logout failed: user not login")

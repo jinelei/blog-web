@@ -1,6 +1,10 @@
 <template>
     <Row justify="center" type="flex" class="nav-container">
         <Col span="2" offset="2">
+            <img alt="logo" :src="logo">
+        </Col>
+        <Col span="2">
+            jinelei
         </Col>
         <Col span="2" offset="2" pull="2">
             <Login/>
@@ -11,36 +15,25 @@
 <script>
     import {mapActions, mapGetters} from 'vuex'
     import {Login} from '@/components/login'
+    import logo from '@/assets/logo.png'
 
     export default {
         name: 'NavBar',
         props: {},
+        data() {
+            return {
+                logo: logo
+            }
+        },
         components: {
             Login,
         },
         mounted() {
-            // let username = "username20"
-            // let password = "test"
-            // this.login({username, password}).then(res => {
-            //     this.getUser({id: 3}).then(res => {
-            //         console.log(res)
-            //     }).catch(err => {
-            //         console.log(err)
-            //     })
-            // }).catch(err => {
-            // })
-            // setTimeout(this.logout, 9000)
         }
         ,
         methods: {
-            ... mapGetters([
-                'getToken',
-            ]),
-            ... mapActions([
-                'login',
-                'logout',
-                'getUser',
-            ])
+            ... mapGetters([]),
+            ... mapActions([])
         }
         ,
     }

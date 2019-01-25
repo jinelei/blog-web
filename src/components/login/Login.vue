@@ -1,11 +1,26 @@
 <template>
     <div class="login-container">
         <template v-if="this.isLogin">
-            <div class="tips">logout</div>
+            <Dropdown class="user-setting-dropdown" trigger="click">
+                <a href="javascript:void(0)">
+                    <Avatar icon="ios-person"/>
+                    &nbsp;
+                    {{getNickName}}
+                    <Icon type="ios-arrow-down"></Icon>
+                </a>
+                <DropdownMenu slot="list" class="user-setting-dropdown-menu">
+                    <DropdownItem>
+                        <Button type="text">设置</Button>
+                    </DropdownItem>
+                    <DropdownItem>
+                        <Button type="text" @click="logout">登出</Button>
+                    </DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
         </template>
         <template v-else>
             <Avatar @click="openModal" icon="ios-person"/>
-            <Button type="text" @click="openModal">登录</Button>
+            <Button ghost type="text" @click="openModal">登录</Button>
         </template>
         <Modal
                 v-model="loginModal"
@@ -13,17 +28,18 @@
                 :closable="false"
                 :mask-closable="false">
             <div slot="footer">
-                <Button type="text" @click="loginModal=false">取消</Button>
-                <Button type="primary" size="large" @click="userLogin">确定</Button>
+                <Button type="text" @click="loginCancel('loginForm')">取消</Button>
+                <Button type="primary" size="large" @click="userLogin('loginForm')">确定</Button>
             </div>
             <Form ref="loginForm" :model="loginForm" :rules="loginFormRule">
-                <FormItem prop="user">
+                <FormItem prop="username">
                     <Input type="text" v-model="loginForm.username" placeholder="用户名">
                     <Icon type="ios-person-outline" slot="prepend"></Icon>
                     </Input>
                 </FormItem>
                 <FormItem prop="password">
-                    <Input type="password" v-model="loginForm.password" placeholder="密码">
+                    <Input @on-enter="userLogin('loginForm')" type="password" v-model="loginForm.password"
+                           placeholder="密码">
                     <Icon type="ios-lock-outline" slot="prepend"></Icon>
                     </Input>
                 </FormItem>
@@ -58,10 +74,16 @@
         computed: {
             isLogin() {
                 return this.getToken() == '' ? false : true;
+            },
+            getNickName() {
+                return this.getLoginUser().nickname;
             }
         },
         methods: {
-            ...mapGetters(['getToken']),
+            ...mapGetters([
+                'getToken',
+                'getLoginUser',
+            ]),
             ...mapActions([
                 'login',
                 'logout',
@@ -70,13 +92,31 @@
             openModal() {
                 this.loginModal = true
             },
-            userLogin() {
-                this.$refs['loginForm'].validate(res => {
-                    console.log(res)
+            userLogin(name) {
+                this.$refs[name].validate(validate => {
+                    if (validate) {
+                        let {username, password} = this.loginForm;
+                        this.login({username, password}).then(res => {
+                            this.$Message.success(`欢迎回来，${res.data.nickname}!`)
+                            this.$nextTick(() => {
+                                this.$refs [name].fields.forEach(function (e) {
+                                    if (e.prop == 'password') {
+                                        e.resetField()
+                                    }
+                                })
+                                this.loginModal = false
+                            })
+                        }).catch(err => {
+                            this.$Message.error("登录失败，请重试!")
+                        })
+                    }
                 })
-                // this.loginModal = false
             },
-            loginCancel() {
+            loginCancel(name) {
+                this.$nextTick(() => {
+                    this.loginModal = false
+                    this.$refs[name].resetFields()
+                })
             }
         }
     }
@@ -89,10 +129,27 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        color: #f00;
+        min-width: 180px;
         .tips {
             font-size: 1rem;
             padding-left: 0.5rem;
+        }
+
+        .user-setting-dropdown {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            a {
+                color: #ff0;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                min-width: 100px;
+            }
+            .user-setting-dropdown-menu {
+            }
         }
     }
 
