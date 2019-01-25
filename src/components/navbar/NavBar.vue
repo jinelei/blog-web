@@ -1,9 +1,9 @@
 <template>
-    <Row justify="center" type="flex" class="nav-container">
+    <Row justify="center" type="flex" align="middle" class-name="nav-container">
         <Col span="2" offset="2">
             <img alt="logo" :src="logo">
         </Col>
-        <Col span="2">
+        <Col :lg="{ span:16 }">
             jinelei
         </Col>
         <Col span="2" offset="2" pull="2">
@@ -46,9 +46,5 @@
         background: rgba(0, 0, 0, 0.7);
         height: 4em;
         color: #fff;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
     }
 </style>

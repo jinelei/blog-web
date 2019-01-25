@@ -1,7 +1,7 @@
 <template>
     <div class="login-container">
         <template v-if="this.isLogin">
-            <Dropdown class="user-setting-dropdown" trigger="click">
+            <Dropdown class="user-setting-dropdown" transfer trigger="click">
                 <a href="javascript:void(0)">
                     <Avatar icon="ios-person"/>
                     &nbsp;

@@ -28,3 +28,11 @@ export const getUser = (id) => {
         method: 'get'
     })
 }
+
+export const getArticles = (data) => {
+    return axios.request({
+        url: '/articles',
+        params: data,
+        method: 'get'
+    })
+}

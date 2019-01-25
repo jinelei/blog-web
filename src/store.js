@@ -1,14 +1,19 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import {login, logout, getUser} from "@/api/index";
+import {
+    login, logout,
+    getUser,
+    getArticles
+} from "@/api/index";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
         token: '',
-        loginUser: {}
+        loginUser: {},
+        articles: []
     },
     mutations: {
         login(state, token) {
@@ -19,11 +24,15 @@ export default new Vuex.Store({
         },
         logout(state) {
             state.token = ''
+        },
+        setArticles(state, data) {
+            state.articles = data
         }
     },
     getters: {
         getToken: state => state.token,
         getLoginUser: state => state.loginUser,
+        getArticles: state => state.articles,
     },
     actions: {
         login({state, commit}, data) {
@@ -69,6 +78,15 @@ export default new Vuex.Store({
                     console.log(err)
                 })
             })
-        }
+        },
+        getArticles({state, commit}, data) {
+            return new Promise((resolve, reject) => {
+                getArticles(data).then(res => {
+                    resolve(res)
+                }).catch(err => {
+                    reject(err)
+                })
+            })
+        },
     }
 })
