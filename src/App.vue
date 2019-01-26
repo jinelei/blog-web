@@ -1,7 +1,7 @@
 <template>
     <div class="layout">
         <Layout>
-            <Header :style="{position: 'fixed', width: '100%'}">
+            <Header :style="{position: 'fixed', width: '100%', 'z-index':'99999'}">
                 <Menu mode="horizontal" theme="dark" active-name="1">
                     <div class="layout-logo">jinelei</div>
                     <div class="layout-nav">
@@ -78,7 +78,7 @@
     }
 
     .layout {
-        border: 1px solid #d7dde4;
+        /*border: 1px solid #d7dde4;*/
         background: #f5f7f9;
         position: relative;
         border-radius: 4px;

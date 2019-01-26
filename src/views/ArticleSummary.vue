@@ -2,9 +2,8 @@
     <Row>
         <Col :lg="{ span: 20, pull: 2, push: 2 }">
             <Button @click="refreshData">refresh</Button>
-            文章列表
             <Row :gutter="16" type="flex" justify="space-between" align="top">
-                <template v-for="article in articles">
+                <template v-for="article in getArticleList">
                     <ArticleSummaryItem :article="article"/>
                 </template>
             </Row>
@@ -22,7 +21,7 @@
             ArticleSummaryItem
         },
         props: {
-            loginUserId: ''
+            // loginUserId: ''
         },
         data() {
             return {
@@ -30,16 +29,22 @@
                     page: 0,
                     size: 10
                 },
-                articles: []
             }
         },
         mounted() {
             // console.log("login user id: " + this.loginUserId)
-            // this.refreshData()
+            this.refreshData()
         },
-        computed: {},
+        computed: {
+            getArticleList() {
+                return this.getArticlesState()
+            }
+        },
         methods: {
-            ...mapGetters([]),
+            ...mapGetters([
+                'getLoginUser',
+                'getArticlesState'
+            ]),
             ...mapActions([
                 'getArticles'
             ]),

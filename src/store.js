@@ -35,10 +35,10 @@ export default new Vuex.Store({
         }
     },
     getters: {
-        getToken: state => state.token,
-        getLoginUser: state => state.loginUser,
-        getArticles: state => state.articles,
-        getCurrentArticle: state => state.currentArticle,
+        getTokenState: state => state.token,
+        getLoginUserState: state => state.loginUser,
+        getArticlesState: state => state.articles,
+        getCurrentArticleState: state => state.currentArticle,
     },
     actions: {
         login({state, commit}, data) {
@@ -55,10 +55,14 @@ export default new Vuex.Store({
                         }
                         resolve(res)
                     } else {
+                        commit('login', '')
+                        commit('setLoginUser', {})
                         reject(res)
                     }
                 }).catch(err => {
                     console.log("login failed: " + JSON.stringify((err)))
+                    commit('login', '')
+                    commit('setLoginUser', {})
                     reject(err)
                 })
             })

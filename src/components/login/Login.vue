@@ -13,7 +13,7 @@
                         <Button type="text">设置</Button>
                     </DropdownItem>
                     <DropdownItem>
-                        <Button type="text" @click="logout">登出</Button>
+                        <Button type="text" @click="userLogout">登出</Button>
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>
@@ -73,16 +73,16 @@
         },
         computed: {
             isLogin() {
-                return this.getToken() == '' ? false : true;
+                return this.getTokenState() == '' ? false : true;
             },
             getNickName() {
-                return this.getLoginUser().nickname;
+                return this.getLoginUserState().nickname;
             }
         },
         methods: {
             ...mapGetters([
-                'getToken',
-                'getLoginUser',
+                'getTokenState',
+                'getLoginUserState',
             ]),
             ...mapActions([
                 'login',
@@ -105,6 +105,8 @@
                                     }
                                 })
                                 this.loginModal = false
+                                console.log(this.$route)
+                                this.$router.push({path: '/'})
                             })
                         }).catch(err => {
                             this.$Message.error("登录失败，请重试!")
@@ -117,6 +119,13 @@
                     this.loginModal = false
                     this.$refs[name].resetFields()
                 })
+            },
+            userLogout() {
+                this.logout().then(res => {
+                    this.$router.replace({path: '/'})
+                }).catch(err => {
+                    this.$router.replace({path: '/'})
+                });
             }
         }
     }
