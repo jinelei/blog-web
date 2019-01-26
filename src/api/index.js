@@ -36,3 +36,11 @@ export const getArticles = (data) => {
         method: 'get'
     })
 }
+
+export const getArticle = (data) => {
+    return axios.request({
+        url: '/article',
+        params: data,
+        method: 'get'
+    })
+}

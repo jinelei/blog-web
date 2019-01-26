@@ -22,7 +22,8 @@
 </template>
 
 <script>
-    import {DateFormat} from "@/libs/utils";
+    import {mapActions, mapGetters} from 'vuex'
+    import {DateFormat} from "@/libs/utils"
     import develop from '@/assets/develop.png'
 
     export default {
@@ -49,15 +50,26 @@
                 return this.article.author.nickname
             },
             getContent() {
-                return this.article.content
+                return !!this.article.content && this.article.content.length > 40
+                    ? this.article.content.substring(0, 40) + '...'
+                    : this.article.content;
             },
             getTitle() {
                 return this.article.title
             }
         },
         methods: {
+            ...mapActions([
+                'getArticle',
+            ]),
             enterArticle() {
-                console.log("enter article")
+                this.getArticle({id: this.article.articleId}).then(res => {
+                    this.$router.push({
+                        path: "/article"
+                    })
+                }).catch(err => {
+                    this.$Message.error("获取文章内容失败！" + JSON.stringify(err))
+                })
             }
         }
     }
@@ -72,7 +84,6 @@
             flex-direction: column;
             margin: 0;
             width: 100%;
-            /*min-width: 300px;*/
             min-height: 350px;
             border-radius: 5px;
             background: url("../../assets/develop.png");
@@ -81,12 +92,14 @@
             background-position: center;
             /*background-attachment: fixed;*/
             background-repeat: no-repeat;
+            /*border: 1px rgb(220,220,220) solid;*/
+            /*box-shadow: 0px 0px 5px rgba(150, 150, 150, 0.5);*/
             padding: 0;
             &:hover {
-                /*transform: scale(1.01);*/
-                /*box-shadow: 0px 0px 2px rgba(150, 150, 150, 0.5);*/
+                transform: scale(1.01);
+                box-shadow: 0px 0px 36px rgba(150, 150, 150, 0.5);
                 & .content-wrapper {
-                    border: 1px #ccc solid;
+                    /*border: 1px rgb(180,180,180) solid;*/
                     /*transform: scale(1.01);*/
                     background-repeat: no-repeat;
                     background: linear-gradient(15deg, rgba(255, 255, 255, 1) 39%, rgba(0, 0, 0, 0.3) 40%),
@@ -102,7 +115,7 @@
             .content-wrapper {
                 padding: 0;
                 border-radius: 5px;
-                border: 1px #aaa solid;
+                /*border: 1px #aaa solid;*/
                 position: absolute;
                 top: 0;
                 bottom: 0;

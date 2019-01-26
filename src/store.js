@@ -4,7 +4,8 @@ import Vuex from 'vuex'
 import {
     login, logout,
     getUser,
-    getArticles
+    getArticles,
+    getArticle,
 } from "@/api/index";
 
 Vue.use(Vuex)
@@ -13,7 +14,8 @@ export default new Vuex.Store({
     state: {
         token: '',
         loginUser: {},
-        articles: []
+        articles: [],
+        currentArticle: {},
     },
     mutations: {
         login(state, token) {
@@ -27,12 +29,16 @@ export default new Vuex.Store({
         },
         setArticles(state, data) {
             state.articles = data
+        },
+        setCurrentArticle(state, data) {
+            state.currentArticle = data
         }
     },
     getters: {
         getToken: state => state.token,
         getLoginUser: state => state.loginUser,
         getArticles: state => state.articles,
+        getCurrentArticle: state => state.currentArticle,
     },
     actions: {
         login({state, commit}, data) {
@@ -82,8 +88,21 @@ export default new Vuex.Store({
         getArticles({state, commit}, data) {
             return new Promise((resolve, reject) => {
                 getArticles(data).then(res => {
+                    commit('setArticles', res.data)
                     resolve(res)
                 }).catch(err => {
+                    commit('setArticles', [])
+                    reject(err)
+                })
+            })
+        },
+        getArticle({state, commit}, data) {
+            return new Promise((resolve, reject) => {
+                getArticle(data).then(res => {
+                    commit('setCurrentArticle', res.data)
+                    resolve(res)
+                }).catch(err => {
+                    commit('setCurrentArticle', {})
                     reject(err)
                 })
             })

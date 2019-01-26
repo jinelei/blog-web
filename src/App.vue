@@ -5,22 +5,14 @@
                 <Menu mode="horizontal" theme="dark" active-name="1">
                     <div class="layout-logo">jinelei</div>
                     <div class="layout-nav">
-                        <!--<MenuItem name="1">-->
-                        <!--<Icon type="ios-navigate"></Icon>-->
-                        <!--Item 1-->
-                        <!--</MenuItem>-->
-                        <!--<MenuItem name="2">-->
-                        <!--<Icon type="ios-keypad"></Icon>-->
-                        <!--Item 2-->
-                        <!--</MenuItem>-->
-                        <!--<MenuItem name="3">-->
-                        <!--<Icon type="ios-analytics"></Icon>-->
-                        <!--Item 3-->
-                        <!--</MenuItem>-->
                         <MenuItem name="1">
-                            <!--<Icon type="ios-paper"></Icon>-->
+                            <router-link to="/">index</router-link>
+                        </MenuItem>
+                        <MenuItem name="2">
+                            <router-link to="/about">about</router-link>
+                        </MenuItem>
+                        <MenuItem name="3">
                             <Login/>
-                            <!--Item 4-->
                         </MenuItem>
                     </div>
                 </Menu>
@@ -35,6 +27,7 @@
 <!--<NavBar/>-->
 
 <script>
+    import {mapActions} from 'vuex'
     import {Login} from '@/components/login'
 
     export default {
@@ -61,9 +54,15 @@
             }
         },
         methods: {
+            ...mapActions([
+                'logout',
+            ]),
             collapsedSider() {
                 this.$refs.side1.toggleCollapse();
             }
+        },
+        destroyed() {
+            this.logout()
         }
     }
 </script>

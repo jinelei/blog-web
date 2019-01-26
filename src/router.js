@@ -13,9 +13,14 @@ export default new Router({
             component: () => import('./views/ArticleSummary.vue')
         },
         {
+            path: '/article',
+            name: 'articleDetail',
+            component: () => import('./views/Article.vue')
+        },
+        {
             path: '/about',
             name: 'about',
-            component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+            component: () => import('./views/About.vue')
         }
     ]
 })
