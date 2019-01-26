@@ -2,6 +2,8 @@ import {
     postToken, deleteToken, getToken,
 } from "@/api/user";
 
+import {setTokenCookies, getTokenCookies} from "@/libs/utils";
+
 
 export default {
     state: {
@@ -12,13 +14,14 @@ export default {
     mutations: {
         setToken(state, data) {
             state.token = data
+            // setTokenCookies(data)
         },
         setCurrentUser(state, data) {
             state.currentUser = data
         }
     },
     getters: {
-        getToken: state => state.token,
+        getToken: state => !!getTokenCookies() ? getTokenCookies() : state.token,
         getCurrentUser: state => state.currentUser,
     },
     actions: {
@@ -42,7 +45,7 @@ export default {
                     }
                 }).catch(err => {
                     console.log("login failed: " + JSON.stringify((err)))
-                    commit('login', '')
+                    commit('setToken', '')
                     commit('setCurrentUser', {})
                     reject(err)
                 })
