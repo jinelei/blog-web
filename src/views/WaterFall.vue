@@ -4,7 +4,7 @@
             <Button @click="refreshData">refresh</Button>
             <Row :gutter="16" type="flex" justify="space-between" align="top">
                 <template v-for="article in getArticleList">
-                    <ArticleSummaryItem :article="article"/>
+                    <ArticleCard :article="article"/>
                 </template>
             </Row>
         </Col>
@@ -13,12 +13,13 @@
 
 <script>
     import {mapGetters, mapActions} from 'vuex'
-    import ArticleSummaryItem from '@/components/article-summary-item'
+    import {DateFormat} from "@/libs/utils"
+    import ArticleCard from '@/components/article-card'
 
     export default {
-        name: "ArticleSummary",
+        name: "WaterFall",
         components: {
-            ArticleSummaryItem
+            ArticleCard
         },
         props: {
         },
@@ -53,7 +54,7 @@
                 }).catch(err => {
                     console.error(err)
                 })
-            }
+            },
         }
     }
 </script>

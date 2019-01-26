@@ -27,7 +27,7 @@
     import develop from '@/assets/develop.png'
 
     export default {
-        name: "ArticleSummaryItem",
+        name: "ArticleCard",
         data() {
             return {
                 defaultImage: develop,

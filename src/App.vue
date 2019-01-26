@@ -9,9 +9,15 @@
                             <router-link to="/">index</router-link>
                         </MenuItem>
                         <MenuItem name="2">
-                            <router-link to="/about">about</router-link>
+                            <router-link to="/timeline">timeline</router-link>
                         </MenuItem>
                         <MenuItem name="3">
+                            <router-link to="/articleEditor">editor</router-link>
+                        </MenuItem>
+                        <MenuItem name="4">
+                            <router-link to="/about">about</router-link>
+                        </MenuItem>
+                        <MenuItem name="5">
                             <Login/>
                         </MenuItem>
                     </div>

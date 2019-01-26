@@ -14,13 +14,23 @@ const router = new Router({
     routes: [
         {
             path: '/',
-            name: 'articleList',
-            component: () => import('./views/ArticleList.vue')
+            name: 'waterFall',
+            component: () => import('./views/WaterFall.vue')
+        },
+        {
+            path: '/timeline',
+            name: 'timeline',
+            component: () => import('./views/Timeline.vue')
         },
         {
             path: '/article',
             name: 'articleDetail',
             component: () => import('./views/Article.vue')
+        },
+        {
+            path: '/editor',
+            name: 'articleEditor',
+            component: () => import('./views/ArticleEditor.vue')
         },
         {
             path: '/about',
