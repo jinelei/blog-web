@@ -60,10 +60,10 @@
         },
         methods: {
             ...mapActions([
-                'getArticle',
+                'getArticleAct',
             ]),
             enterArticle() {
-                this.getArticle({id: this.article.articleId}).then(res => {
+                this.getArticleAct({id: this.article.articleId}).then(res => {
                     this.$router.push({
                         path: "/article"
                     })

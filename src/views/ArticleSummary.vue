@@ -21,7 +21,6 @@
             ArticleSummaryItem
         },
         props: {
-            // loginUserId: ''
         },
         data() {
             return {
@@ -37,23 +36,22 @@
         },
         computed: {
             getArticleList() {
-                return this.getArticlesState()
+                return this.getArticles()
             }
         },
         methods: {
             ...mapGetters([
-                'getLoginUser',
-                'getArticlesState'
+                'getArticles'
             ]),
             ...mapActions([
-                'getArticles'
+                'getArticlesAct'
             ]),
             refreshData() {
                 let {page, size} = this.formFilter
-                this.getArticles({page, size}).then(res => {
+                this.getArticlesAct({page, size}).then(res => {
                     this.articles = res.data
                 }).catch(err => {
-                    console.err(err)
+                    console.error(err)
                 })
             }
         }

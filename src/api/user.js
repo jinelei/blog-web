@@ -1,7 +1,7 @@
 import axios from '@/libs/api.request'
 import store from '@/store'
 
-export const login = ({username, password}) => {
+export const postToken = ({username, password}) => {
     return axios.request({
         url: '/token',
         params: {
@@ -12,35 +12,19 @@ export const login = ({username, password}) => {
     })
 }
 
-export const logout = () => {
+export const deleteToken = () => {
     return axios.request({
         url: '/token',
         method: 'delete'
     })
 }
 
-export const getUser = (id) => {
+export const getToken = (id) => {
     return axios.request({
         url: '/user',
         params: {
             id: id
         },
-        method: 'get'
-    })
-}
-
-export const getArticles = (data) => {
-    return axios.request({
-        url: '/articles',
-        params: data,
-        method: 'get'
-    })
-}
-
-export const getArticle = (data) => {
-    return axios.request({
-        url: '/article',
-        params: data,
         method: 'get'
     })
 }

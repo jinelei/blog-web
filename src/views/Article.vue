@@ -37,28 +37,28 @@
         },
         computed: {
             getCreateTime() {
-                return DateFormat(this.getCurrentArticleState().createTime, "yyyy-MM-dd")
+                return DateFormat(this.getArticle().createTime, "yyyy-MM-dd")
             },
             getTagsLength() {
-                return this.getCurrentArticleState().tags.length
+                return this.getArticle().tags.length
             },
             getCommentsLength() {
-                return this.getCurrentArticleState().comments.length
+                return this.getArticle().comments.length
             },
             getAuthorName() {
-                return this.getCurrentArticleState().author.nickname
+                return this.getArticle().author.nickname
             },
             getContent() {
-                return this.getCurrentArticleState().content
+                return this.getArticle().content
             },
             getTitle() {
-                return this.getCurrentArticleState().title
+                return this.getArticle().title
             },
             getArticleId() {
-                return this.getCurrentArticleState().articleId
+                return this.getArticle().articleId
             },
             getBrowsePrivilege() {
-                let browsePrivilege = this.getCurrentArticleState().browsePrivilege
+                let browsePrivilege = this.getArticle().browsePrivilege
                 switch (browsePrivilege) {
                     case 'ALLOW_ALL':
                         return '公开'
@@ -72,7 +72,7 @@
         methods: {
             ...mapActions([]),
             ...mapGetters([
-                'getCurrentArticleState'
+                'getArticle'
             ]),
             refreshData() {
 

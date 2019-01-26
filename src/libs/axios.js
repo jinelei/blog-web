@@ -1,5 +1,6 @@
 import axios from 'axios'
 import store from '@/store'
+import userManagement from "../store/module/user-management";
 
 class HttpRequest {
     constructor(baseUrl = baseURL) {
@@ -28,8 +29,8 @@ class HttpRequest {
         instance.interceptors.request.use(config => {
             if (!Object.keys(this.queue).length) {
             }
-            if (store.state.token != '') {
-                config.headers['Authorization'] = `Bearer ${store.state.token}`
+            if (store.state.userManagement.token != '') {
+                config.headers['Authorization'] = `Bearer ${store.state.userManagement.token}`
             }
             this.queue[url] = true
             return config

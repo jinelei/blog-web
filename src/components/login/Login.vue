@@ -73,21 +73,20 @@
         },
         computed: {
             isLogin() {
-                return this.getTokenState() == '' ? false : true;
+                return this.getToken() == '' ? false : true;
             },
             getNickName() {
-                return this.getLoginUserState().nickname;
+                return this.getCurrentUser().nickname;
             }
         },
         methods: {
             ...mapGetters([
-                'getTokenState',
-                'getLoginUserState',
+                'getToken',
+                'getCurrentUser',
             ]),
             ...mapActions([
-                'login',
-                'logout',
-                'getUser',
+                'setTokenAct',
+                'removeTokenAct',
             ]),
             openModal() {
                 this.loginModal = true
@@ -96,7 +95,7 @@
                 this.$refs[name].validate(validate => {
                     if (validate) {
                         let {username, password} = this.loginForm;
-                        this.login({username, password}).then(res => {
+                        this.setTokenAct({username, password}).then(res => {
                             this.$Message.success(`欢迎回来，${res.data.nickname}!`)
                             this.$nextTick(() => {
                                 this.$refs [name].fields.forEach(function (e) {
@@ -121,7 +120,7 @@
                 })
             },
             userLogout() {
-                this.logout().then(res => {
+                this.removeTokenAct().then(res => {
                     this.$router.replace({path: '/'})
                 }).catch(err => {
                     this.$router.replace({path: '/'})
