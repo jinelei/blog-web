@@ -35,10 +35,11 @@
                 :mask-closable="false"
                 :styles="styles">
             <Form ref="articleForm"
-                  :rules="articleFormDataRule" :model="articleFormData">
+                  :rules="articleFormDataRule"
+                  :model="articleFormData">
                 <Row :gutter="32">
                     <Col span="24">
-                        <FormItem prop="articleFormData.title">
+                        <FormItem prop="title">
                             <Input v-model="articleFormData.title"/>
                         </FormItem>
                     </Col>
@@ -46,22 +47,22 @@
                 <Row :gutter="32">
                     <Col span="11">
                         <FormItem label="浏览权限:"
-                                  prop="articleFormData.browsePrivilege">
+                                  prop="browsePrivilege">
                             <Select v-model="articleFormData.browsePrivilege" placeholder="请选择目录">
                                 <Option v-for="item in articleBrowsePrivilegeList"
-                                        :value="item" :key="item">{{
-                                    item}}
+                                        :value="item" :key="item"
+                                >{{item}}
                                 </Option>
                             </Select>
                         </FormItem>
                     </Col>
                     <Col span="11" offset="1">
                         <FormItem label="评论权限:"
-                                  prop="articleFormData.commentPrivilege">
+                                  prop="commentPrivilege">
                             <Select v-model="articleFormData.commentPrivilege" placeholder="请选择目录">
                                 <Option v-for="item in articleCommentPrivilegeList"
-                                        :value="item" :key="item">{{
-                                    item}}
+                                        :value="item" :key="item"
+                                >{{item}}
                                 </Option>
                             </Select>
                         </FormItem>
@@ -70,23 +71,23 @@
                 <Row :gutter="32">
                     <Col span="8">
                         <FormItem label="目录:"
-                                  prop="articleFormData.category">
+                                  prop="category">
                             <Select v-model="articleFormData.category" placeholder="请选择目录">
                                 <Option v-for="item in getCategoriesList"
-                                        :value="item.id" :key="item.id">{{
-                                    item.value}}
+                                        :value="item.id" :key="item.id"
+                                >{{item.value}}
                                 </Option>
                             </Select>
                         </FormItem>
                     </Col>
                     <Col span="16">
                         <FormItem label="标签:"
-                                  prop="articleFormData.tags">
+                                  prop="tags">
                             <Select multiple
                                     v-model="articleFormData.tags" placeholder="请选择标签">
                                 <Option v-for="item in getTagsList"
-                                        :value="item.id" :key="item.id">{{
-                                    item.value}}
+                                        :value="item.id" :key="item.id"
+                                >{{item.value}}
                                 </Option>
                             </Select>
                         </FormItem>
@@ -94,7 +95,7 @@
                 </Row>
                 <Row :gutter="32">
                     <Col span="24">
-                        <FormItem prop="articleFormData.content">
+                        <FormItem prop="content">
                             <i-editor :autosize="{ minRows: 15, maxRows: 20 }"
                                       :affix="true"
                                       :offset-top="30"
@@ -143,13 +144,10 @@
                     title: '',
                 },
                 articleFormDataRule: {
-                    content: [
-                        {required: true, message: '文章内容不能为空', trigger: 'blur'}
-                    ],
                     title: [
                         {required: true, message: '标题不能为空', trigger: 'blur'}
-                    ],
-                },
+                    ]
+                }
             }
         },
         mounted() {
@@ -262,7 +260,7 @@
             openEditorDrawer() {
                 this.editorDrawerFlag = true
                 this.articleFormData = {...this.getArticle()}
-
+                this.$refs['articleForm'].resetFields()
                 if (!!this.getArticle()
                     && !!this.getArticle().category
                     && !!this.getArticle().category.categoryId) {
