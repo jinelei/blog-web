@@ -6,16 +6,16 @@
                     <div class="layout-logo">jinelei</div>
                     <div class="layout-nav">
                         <MenuItem name="1">
-                            <Icon type="ios-navigate"></Icon>
+                            <Icon size="20" type="ios-navigate"/>
                             <router-link to="/"> 发现</router-link>
                         </MenuItem>
-                        <MenuItem name="2">
-                            <Icon type="ios-keypad"></Icon>
-                            标签
+                        <MenuItem v-if="isLogin" name="2">
+                            <Icon size="20" type="md-pricetag"/>
+                            <router-link to="/tags">标签</router-link>
                         </MenuItem>
                         <MenuItem name="3">
-                            <Icon type="ios-paper"></Icon>
-                            文章
+                            <Icon size="20" type="ios-paper"/>
+                            <router-link to="/timeline">文章</router-link>
                         </MenuItem>
                         <MenuItem name="4">
                             <Login/>
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-    import {mapActions} from 'vuex'
+    import {mapActions, mapGetters} from 'vuex'
     import {Login} from '@/components/login'
     import Link from "iview/src/mixins/link";
 
@@ -44,8 +44,15 @@
         data() {
             return {}
         },
-        computed: {},
+        computed: {
+            isLogin() {
+                return this.getToken() == '' ? false : true;
+            },
+        },
         methods: {
+            ...mapGetters([
+                'getToken',
+            ]),
             ...mapActions([
                 'setTokenAct',
             ]),
@@ -74,10 +81,6 @@
         position: relative;
         border-radius: 4px;
         overflow: hidden;
-        /*display: flex;*/
-        /*flex-direction: row;*/
-        /*justify-content: space-between;*/
-        /*align-items: center;*/
         .layout-logo {
             float: left;
             color: #fff;
@@ -91,17 +94,9 @@
             flex-direction: row;
             justify-content: flex-end;
             align-items: center;
-            .menu-item {
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-                color: #fff;
-                padding: 0.5rem 1rem;
-                margin: 0 0.5rem;
-                font-size: 1rem;
-                font-weight: bold;
-                border-radius: 5px;
+            a {
+                color: #ccc;
+                font-size: 0.9rem;
             }
         }
         .layout-footer-center {

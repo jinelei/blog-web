@@ -18,6 +18,11 @@ const router = new Router({
             component: () => import('./views/WaterFall.vue')
         },
         {
+            path: '/tags',
+            name: 'tags',
+            component: () => import('./views/Tags.vue')
+        },
+        {
             path: '/timeline',
             name: 'timeline',
             component: () => import('./views/Timeline.vue')
