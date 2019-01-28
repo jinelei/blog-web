@@ -1,14 +1,29 @@
 <template>
     <div class="layout">
         <Layout>
-            <Header :style="{position: 'fixed', width: '100%', 'z-index':'99999'}">
+            <Header>
                 <Menu mode="horizontal" theme="dark" active-name="1">
                     <div class="layout-logo">jinelei</div>
                     <div class="layout-nav">
+                        <MenuItem name="1">
+                            <Icon type="ios-navigate"></Icon>
+                            <router-link to="/"> 发现</router-link>
+                        </MenuItem>
+                        <MenuItem name="2">
+                            <Icon type="ios-keypad"></Icon>
+                            标签
+                        </MenuItem>
+                        <MenuItem name="3">
+                            <Icon type="ios-paper"></Icon>
+                            文章
+                        </MenuItem>
+                        <MenuItem name="4">
+                            <Login/>
+                        </MenuItem>
                     </div>
                 </Menu>
             </Header>
-            <Content :style="{margin: '88px 20px 0', background: '#fff', minHeight: '500px'}">
+            <Content :style="{padding: '0 50px', minHeight: '500px'}">
                 <router-view/>
             </Content>
             <Footer class="layout-footer-center">2011-2016 &copy; TalkingData</Footer>
@@ -19,9 +34,11 @@
 <script>
     import {mapActions} from 'vuex'
     import {Login} from '@/components/login'
+    import Link from "iview/src/mixins/link";
 
     export default {
         components: {
+            Link,
             Login
         },
         data() {
@@ -40,6 +57,8 @@
 </script>
 
 <style lang="less">
+    @import "common";
+
     * {
         -webkit-touch-callout: none;
         -webkit-user-select: none;
@@ -55,55 +74,38 @@
         position: relative;
         border-radius: 4px;
         overflow: hidden;
-    }
-
-    .layout-header-bar {
-        background: #fff;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
-    }
-
-    .layout-logo-left {
-        width: 90%;
-        height: 30px;
-        background: #5b6270;
-        border-radius: 3px;
-        margin: 15px auto;
-    }
-
-    .menu-icon {
-        transition: all .3s;
-    }
-
-    .rotate-icon {
-        transform: rotate(-90deg);
-    }
-
-    .menu-item span {
-        display: inline-block;
-        overflow: hidden;
-        width: 69px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        vertical-align: bottom;
-        transition: width .2s ease .2s;
-    }
-
-    .menu-item i {
-        transform: translateX(0px);
-        transition: font-size .2s ease, transform .2s ease;
-        vertical-align: middle;
-        font-size: 16px;
-    }
-
-    .collapsed-menu span {
-        width: 0px;
-        transition: width .2s ease;
-    }
-
-    .collapsed-menu i {
-        transform: translateX(5px);
-        transition: font-size .2s ease .2s, transform .2s ease .2s;
-        vertical-align: middle;
-        font-size: 22px;
+        /*display: flex;*/
+        /*flex-direction: row;*/
+        /*justify-content: space-between;*/
+        /*align-items: center;*/
+        .layout-logo {
+            float: left;
+            color: #fff;
+            font-size: 2.2rem;
+            width: 3em;
+            left: 3rem;
+            top: 0;
+        }
+        .layout-nav {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+            .menu-item {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                color: #fff;
+                padding: 0.5rem 1rem;
+                margin: 0 0.5rem;
+                font-size: 1rem;
+                font-weight: bold;
+                border-radius: 5px;
+            }
+        }
+        .layout-footer-center {
+            text-align: center;
+        }
     }
 </style>

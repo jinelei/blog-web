@@ -6,6 +6,7 @@
                       :offset-top="30"
                       v-model="content"></i-editor>
         </Col>
+
     </Row>
 </template>
 
@@ -14,7 +15,7 @@
         name: "ArticleEditor",
         data() {
             return {
-                content: ''
+                content: '',
             }
         }
     }

@@ -41,3 +41,17 @@ export const getArticle = (data) => {
     })
 }
 
+export const getArticleBrowsePrivilege = () => {
+    return axios.request({
+        url: '/article/browse-privilege',
+        method: 'get'
+    })
+}
+
+export const getArticleCommentPrivilege = () => {
+    return axios.request({
+        url: '/article/comment-privilege',
+        method: 'get'
+    })
+}
+

@@ -1,7 +1,7 @@
 import {
     postArticle, deleteArticle, putArticle, getArticle, getArticles,
+    getArticleBrowsePrivilege, getArticleCommentPrivilege,
 } from "@/api/article";
-
 
 export default {
     state: {
@@ -40,6 +40,35 @@ export default {
                     resolve(res)
                 }).catch(err => {
                     commit('setArticle', {})
+                    reject(err)
+                })
+            })
+        },
+        putArticleAct({state, commit, rootGetters}, data) {
+            return new Promise((resolve, reject) => {
+                putArticle(data).then(res => {
+                    commit('setArticle', res.data)
+                    resolve(res)
+                }).catch(err => {
+                    commit('setArticle', {})
+                    reject(err)
+                })
+            })
+        },
+        getArticleBrowsePrivilegeAct({state, commit, rootGetters}, data) {
+            return new Promise((resolve, reject) => {
+                getArticleBrowsePrivilege(data).then(res => {
+                    resolve(res)
+                }).catch(err => {
+                    reject(err)
+                })
+            })
+        },
+        getArticleCommentPrivilegeAct({state, commit, rootGetters}, data) {
+            return new Promise((resolve, reject) => {
+                getArticleCommentPrivilege(data).then(res => {
+                    resolve(res)
+                }).catch(err => {
                     reject(err)
                 })
             })

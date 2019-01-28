@@ -62,10 +62,10 @@
                 },
                 loginFormRule: {
                     username: [
-                        {required: true, message: '用户名不能为空', trigger: 'blur'}
+                        // {required: true, message: '用户名不能为空', trigger: 'blur'}
                     ],
                     password: [
-                        {required: true, message: '密码不能为空', trigger: 'blur'},
+                        // {required: true, message: '密码不能为空', trigger: 'blur'},
                         {type: 'string', min: 4, message: '密码最少4位', trigger: 'blur'}
                     ]
                 }
@@ -104,7 +104,6 @@
                                     }
                                 })
                                 this.loginModal = false
-                                console.log(this.$route)
                                 this.$router.push({path: '/'})
                             })
                         }).catch(err => {
@@ -138,6 +137,7 @@
         justify-content: center;
         align-items: center;
         min-width: 180px;
+        user-select: auto;
         .tips {
             font-size: 1rem;
             padding-left: 0.5rem;

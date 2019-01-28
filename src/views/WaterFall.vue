@@ -21,8 +21,7 @@
         components: {
             ArticleCard
         },
-        props: {
-        },
+        props: {},
         data() {
             return {
                 formFilter: {
@@ -32,7 +31,7 @@
             }
         },
         mounted() {
-            // console.log("login user id: " + this.loginUserId)
+            console.log("login user id: " + this.loginUserId)
             this.refreshData()
         },
         computed: {
