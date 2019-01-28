@@ -20,7 +20,7 @@
                         <template v-for="article in tag.articles">
                             <div class="article">
                                 <div class="title">{{article.title}}</div>
-                                <div class="category">{{article.category.name}}</div>
+                                <div class="category" v-if="!!article.category">{{article.category.name}}</div>
                             </div>
                         </template>
                     </div>
@@ -37,22 +37,26 @@
         name: "Tags",
         data() {
             return {
-                tagList: []
+                tagList: [],
             }
         },
         components: {},
         mounted() {
             this.getTagsAct({page: 0, size: 100}).then(res => {
+                this.tagList = new Array()
                 let tags = res.data
                 for (let i in tags) {
                     let tagId = tags[i].tagId
                     if (!!!this.tagList[tagId]) {
                         this.tagList[tagId] = {
-                            tag: tags[i]
+                            tag: tags[i],
                         }
                     }
                     this.getArticlesAct({page: 0, size: 100, tags: tagId}).then(res => {
-                        this.tagList[tagId].articles = res.data
+                        let data = this.tagList
+                        data[tagId].articles = res.data
+                        this.tagList = new Array()
+                        this.tagList = data
                     }).catch(err => {
                         console.error(err)
                     })
