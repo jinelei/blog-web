@@ -110,17 +110,6 @@
             }
         },
         mounted() {
-            if (!!this.articleRef) {
-                this.articleEditorFormData = {...this.articleRef}
-                if (!!this.articleRef.category
-                    && !!this.articleRef.category.categoryId) {
-                    this.articleEditorFormData.category = this.articleRef.category.categoryId
-                }
-                this.articleEditorFormData.tags = []
-                for (let i in this.articleRef.tags) {
-                    this.articleEditorFormData.tags.push(this.articleRef.tags[i].tagId)
-                }
-            }
             this.refreshData()
         },
         computed: {
@@ -163,6 +152,18 @@
                 'getTags',
             ]),
             refreshData() {
+                this.$refs['articleEditorForm'].resetFields()
+                if (!!this.articleRef) {
+                    this.articleEditorFormData = {...this.articleRef}
+                    if (!!this.articleRef.category
+                        && !!this.articleRef.category.categoryId) {
+                        this.articleEditorFormData.category = this.articleRef.category.categoryId
+                    }
+                    this.articleEditorFormData.tags = []
+                    for (let i in this.articleRef.tags) {
+                        this.articleEditorFormData.tags.push(this.articleRef.tags[i].tagId)
+                    }
+                }
                 this.getArticleBrowsePrivilegeAct().then(res => {
                     this.articleBrowsePrivilegeList = res.data
                 }).catch(err => {
@@ -182,6 +183,12 @@
                     console.error(err)
                 })
             },
+            validateFormData() {
+                return this.$refs['articleEditorForm'].validate();
+            },
+            getFormData() {
+                return this.articleEditorFormData
+            }
         }
     }
 </script>
