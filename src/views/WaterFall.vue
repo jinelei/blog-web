@@ -1,6 +1,9 @@
 <template>
     <Row>
-        <Col :lg="{ span: 20, pull: 2, push: 2 }">
+        <Col :lg="{ span: 24 }"
+             :md="{ span: 22, push: 1, pull: 1 }"
+             :sm="{ span: 22, push: 1, pull: 1 }"
+             :xs="{ span: 22, push: 1, pull: 1 }">
             <Button @click="refreshData">refresh</Button>
             <Row :gutter="16" type="flex" justify="space-between" align="top">
                 <template v-for="article in getArticleList">

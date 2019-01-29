@@ -3,7 +3,9 @@
         <Layout>
             <Header>
                 <Menu mode="horizontal" theme="dark" active-name="1">
-                    <div class="layout-logo">jinelei</div>
+                    <div class="layout-logo">
+                        <router-link to="/">jinelei</router-link>
+                    </div>
                     <div class="layout-nav">
                         <MenuItem name="1">
                             <Icon size="20" type="ios-navigate"/>
@@ -19,7 +21,7 @@
                     </div>
                 </Menu>
             </Header>
-            <Content :style="{padding: '0 50px', minHeight: '500px'}">
+            <Content :style="{minHeight: '500px'}">
                 <router-view/>
             </Content>
             <Footer class="layout-footer-center">2011-2016 &copy; TalkingData</Footer>

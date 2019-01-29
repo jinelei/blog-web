@@ -1,5 +1,9 @@
 <template>
-    <Col span="7" class-name="container">
+    <Col :lg="{ span: 5 }"
+         :md="{ span: 7 }"
+         :sm="{ span: 10 }"
+         :xs="{ span: 22 }"
+         class-name="container">
         <div class="container-inner" @click="enterArticle">
             <div class="content-wrapper">
                 <div class="content">
@@ -84,7 +88,7 @@
             flex-direction: column;
             margin: 0;
             width: 100%;
-            min-height: 350px;
+            min-height: 14rem;
             border-radius: 5px;
             background: url("../../assets/develop.png");
             background-clip: content-box;
