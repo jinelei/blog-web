@@ -58,6 +58,7 @@
             ]),
         },
         destroyed() {
+            console.log('destroyed')
             this.setTokenAct()
         }
     }
