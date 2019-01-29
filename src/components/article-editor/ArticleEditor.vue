@@ -269,6 +269,7 @@
                 'getCategoriesAct',
             ]),
             ...mapGetters([
+                'getToken',
                 'getCategories',
                 'getTags',
             ]),
@@ -285,24 +286,26 @@
                         this.articleEditorFormData.tags.push(this.articleRef.tags[i].tagId)
                     }
                 }
-                this.getArticleBrowsePrivilegeAct().then(res => {
-                    this.articleBrowsePrivilegeList = res.data
-                }).catch(err => {
-                    console.error(err)
-                })
-                this.getArticleCommentPrivilegeAct().then(res => {
-                    this.articleCommentPrivilegeList = res.data
-                }).catch(err => {
-                    console.error(err)
-                })
-                this.getTagsAct({page: 0, size: 100}).then(res => {
-                }).catch(err => {
-                    console.error(err)
-                })
-                this.getCategoriesAct({page: 0, size: 100}).then(res => {
-                }).catch(err => {
-                    console.error(err)
-                })
+                if (!!this.getToken()) {
+                    this.getArticleBrowsePrivilegeAct().then(res => {
+                        this.articleBrowsePrivilegeList = res.data
+                    }).catch(err => {
+                        console.error(err)
+                    })
+                    this.getArticleCommentPrivilegeAct().then(res => {
+                        this.articleCommentPrivilegeList = res.data
+                    }).catch(err => {
+                        console.error(err)
+                    })
+                    this.getTagsAct({page: 0, size: 100}).then(res => {
+                    }).catch(err => {
+                        console.error(err)
+                    })
+                    this.getCategoriesAct({page: 0, size: 100}).then(res => {
+                    }).catch(err => {
+                        console.error(err)
+                    })
+                }
             },
             validateFormData() {
                 return this.$refs['articleEditorForm'].validate();
