@@ -68,7 +68,8 @@
                 </Col>
                 <Col span="1" pull="1">
                     <Tooltip>
-                        <Button type="info" shape="circle" icon="md-add" @click="addCategory"></Button>
+                        <Button type="info" shape="circle" icon="md-add"
+                                @click="addCategoryModalFlag=true"></Button>
                         <div slot="content">
                             <p>添加目录</p>
                         </div>
@@ -92,7 +93,8 @@
                 </Col>
                 <Col span="1" pull="1">
                     <Tooltip>
-                        <Button type="info" shape="circle" icon="md-add" @click="addTag"></Button>
+                        <Button type="info" shape="circle" icon="md-add"
+                                @click="addTagModalFlag=true"></Button>
                         <div slot="content">
                             <p>添加标签</p>
                         </div>
@@ -308,12 +310,6 @@
             getFormData() {
                 return this.articleEditorFormData
             },
-            addTag() {
-                this.addTagModalFlag = true
-            },
-            addCategory() {
-                this.addCategoryModalFlag = true
-            },
             addTagConfirm() {
                 this.$refs['addTagModal'].validate(valid => {
                     if (valid) {
@@ -331,6 +327,7 @@
             },
             addTagCancel() {
                 this.$refs['addTagModal'].resetFields()
+                this.addTagModalFlag = false
             },
             addCategoryConfirm() {
                 this.$refs['addCategoryModal'].validate(valid => {
@@ -348,6 +345,7 @@
                 })
             },
             addCategoryCancel() {
+                this.addCategoryModalFlag = false
                 this.$refs['addCategoryModal'].resetFields()
             },
         }
