@@ -17,9 +17,7 @@
                             {{getBrowsePrivilegeString}}
                         </div>
                     </div>
-                    <div class="content">
-                        {{getContent}}
-                    </div>
+                    <div class="content" v-html="getContent"/>
                 </Col>
             </Row>
         </Col>
@@ -47,6 +45,11 @@
     import {mapGetters, mapActions} from 'vuex'
     import {ArticleEditor} from '@/components/article-editor'
     import {DateFormat} from "@/libs/utils"
+
+    var showdown = require('showdown')
+
+    console.log(showdown)
+    const converter = new showdown.Converter()
 
     export default {
         name: "Article",
@@ -81,6 +84,8 @@
                     return ''
             },
             getContent() {
+                if (!!this.getArticle().content)
+                    return converter.makeHtml(this.getArticle().content)
                 return this.getArticle().content
             },
             getTitle() {

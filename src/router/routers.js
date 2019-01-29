@@ -10,11 +10,6 @@ export default [
         component: () => import('../views/Tags.vue')
     },
     {
-        path: '/timeline',
-        name: 'timeline',
-        component: () => import('../views/Timeline.vue')
-    },
-    {
         path: '/article',
         name: 'articleDetail',
         component: () => import('../views/Article.vue')

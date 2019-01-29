@@ -96,7 +96,8 @@
                     if (validate) {
                         let {username, password} = this.loginForm;
                         this.setTokenAct({username, password}).then(res => {
-                            this.$Message.success(`欢迎回来，${res.data.nickname}!`)
+                            if (!!res.data && !!res.data.nickname)
+                                this.$Message.success(`欢迎回来，${res.data.nickname}!`)
                             this.$nextTick(() => {
                                 this.$refs [name].fields.forEach(function (e) {
                                     if (e.prop == 'password') {

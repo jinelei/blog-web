@@ -14,10 +14,6 @@
                             <router-link to="/tags">标签</router-link>
                         </MenuItem>
                         <MenuItem name="3">
-                            <Icon size="20" type="ios-paper"/>
-                            <router-link to="/timeline">文章</router-link>
-                        </MenuItem>
-                        <MenuItem name="4">
                             <Login/>
                         </MenuItem>
                     </div>

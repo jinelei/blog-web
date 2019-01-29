@@ -20,8 +20,6 @@ const index = new Router({
 
 
 index.beforeEach((to, from, next) => {
-    console.log(to)
-    console.log(from)
     if (!!!from.name && to.path !== '/') {
         // 如果初始目标地址不是/，重定向到/
         next({
