@@ -54,5 +54,16 @@ export default {
                 })
             })
         },
+        postCategoryAct({state, commit, rootGetters}, data) {
+            return new Promise((resolve, reject) => {
+                postCategory(data).then(res => {
+                    // commit('setCategory', res.data)
+                    resolve(res)
+                }).catch(err => {
+                    // commit('setCategory', {})
+                    reject(err)
+                })
+            })
+        },
     }
 }

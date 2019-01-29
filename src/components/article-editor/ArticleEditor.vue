@@ -5,58 +5,98 @@
               :model="articleEditorFormData">
             <Row :gutter="32">
                 <Col span="24">
-                    <FormItem prop="title">
-                        <Input v-model="articleEditorFormData.title"/>
-                    </FormItem>
+                    <Tooltip :style="{width: '100%'}" transfer>
+                        <FormItem prop="title">
+                            <Input v-model="articleEditorFormData.title"/>
+                        </FormItem>
+                        <div slot="content">
+                            <p>请输入文章标题</p>
+                            <p><i>文章标题不能为空</i></p>
+                        </div>
+                    </Tooltip>
                 </Col>
             </Row>
             <Row :gutter="32">
-                <Col span="11">
-                    <FormItem label="浏览权限:"
-                              prop="browsePrivilege">
-                        <Select v-model="articleEditorFormData.browsePrivilege" placeholder="请选择目录">
-                            <Option v-for="item in articleBrowsePrivilegeList"
-                                    :value="item" :key="item"
-                            >{{item}}
-                            </Option>
-                        </Select>
-                    </FormItem>
+                <Col span="12">
+                    <Tooltip placement="top" :style="{width: '100%'}">
+                        <FormItem prop="browsePrivilege">
+                            <Select v-model="articleEditorFormData.browsePrivilege"
+                                    placeholder="请选择浏览权限">
+                                <Option v-for="item in articleBrowsePrivilegeList"
+                                        :value="item" :key="item"
+                                >{{item}}
+                                </Option>
+                            </Select>
+                        </FormItem>
+                        <div slot="content">
+                            <p>请选择浏览权限</p>
+                        </div>
+                    </Tooltip>
                 </Col>
-                <Col span="11" offset="1">
-                    <FormItem label="评论权限:"
-                              prop="commentPrivilege">
-                        <Select v-model="articleEditorFormData.commentPrivilege" placeholder="请选择目录">
-                            <Option v-for="item in articleCommentPrivilegeList"
-                                    :value="item" :key="item"
-                            >{{item}}
-                            </Option>
-                        </Select>
-                    </FormItem>
+                <Col span="12">
+                    <Tooltip placement="top" :style="{width: '100%'}">
+                        <FormItem prop="commentPrivilege">
+                            <Select v-model="articleEditorFormData.commentPrivilege"
+                                    placeholder="请选择评论权限">
+                                <Option v-for="item in articleCommentPrivilegeList"
+                                        :value="item" :key="item"
+                                >{{item}}
+                                </Option>
+                            </Select>
+                        </FormItem>
+                        <div slot="content">
+                            <p>请选择评论权限</p>
+                        </div>
+                    </Tooltip>
                 </Col>
             </Row>
             <Row :gutter="32">
-                <Col span="8">
-                    <FormItem label="目录:"
-                              prop="category">
-                        <Select v-model="articleEditorFormData.category" placeholder="请选择目录">
-                            <Option v-for="item in getCategoriesList"
-                                    :value="item.id" :key="item.id"
-                            >{{item.value}}
-                            </Option>
-                        </Select>
-                    </FormItem>
+                <Col span="7">
+                    <Tooltip placement="top" :style="{width: '100%'}">
+                        <FormItem prop="category">
+                            <Select v-model="articleEditorFormData.category" placeholder="请选择目录">
+                                <Option v-for="item in getCategoriesList"
+                                        :value="item.id" :key="item.id"
+                                >{{item.value}}
+                                </Option>
+                            </Select>
+                        </FormItem>
+                        <div slot="content">
+                            <p>请选择目录</p>
+                        </div>
+                    </Tooltip>
                 </Col>
-                <Col span="16">
-                    <FormItem label="标签:"
-                              prop="tags">
-                        <Select multiple
-                                v-model="articleEditorFormData.tags" placeholder="请选择标签">
-                            <Option v-for="item in getTagsList"
-                                    :value="item.id" :key="item.id"
-                            >{{item.value}}
-                            </Option>
-                        </Select>
-                    </FormItem>
+                <Col span="1" pull="1">
+                    <Tooltip>
+                        <Button type="info" shape="circle" icon="md-add" @click="addCategory"></Button>
+                        <div slot="content">
+                            <p>添加目录</p>
+                        </div>
+                    </Tooltip>
+                </Col>
+                <Col span="14">
+                    <Tooltip placement="top" :style="{width: '100%'}">
+                        <FormItem prop="tags">
+                            <Select multiple
+                                    v-model="articleEditorFormData.tags" placeholder="请选择标签">
+                                <Option v-for="item in getTagsList"
+                                        :value="item.id" :key="item.id"
+                                >{{item.value}}
+                                </Option>
+                            </Select>
+                        </FormItem>
+                        <div slot="content">
+                            <p>请选择标签</p>
+                        </div>
+                    </Tooltip>
+                </Col>
+                <Col span="1" pull="1">
+                    <Tooltip>
+                        <Button type="info" shape="circle" icon="md-add" @click="addTag"></Button>
+                        <div slot="content">
+                            <p>添加标签</p>
+                        </div>
+                    </Tooltip>
                 </Col>
             </Row>
             <Row :gutter="32">
@@ -70,6 +110,65 @@
                 </Col>
             </Row>
         </Form>
+        <Modal v-model="addTagModalFlag"
+               title="添加标签"
+               :mask-closable="false">
+            <Form ref="addTagModal" :model="addTagModalData"
+                  :rules="addTagCategoryFormRule" label-position="left" :label-width="60">
+                <Tooltip placement="top" :style="{width: '100%'}">
+                    <FormItem label="名称:" prop="name">
+                        <Input v-model="addTagModalData.name" placeholder="请输入标签名"></Input>
+                    </FormItem>
+                    <div slot="content">
+                        <p>请输入标签名</p>
+                    </div>
+                </Tooltip>
+                <Tooltip placement="top" :style="{width: '100%'}">
+                    <FormItem label="说明:" prop="summary">
+                        <Input type="textarea" :rows="4" placeholder="请输入标签说明"
+                               v-model="addTagModalData.summary"></Input>
+                    </FormItem>
+                    <div slot="content">
+                        <p>请输入标签说明</p>
+                    </div>
+                </Tooltip>
+            </Form>
+            <div slot="footer">
+                <Button type="text" @click="addTagCancel">取消</Button>
+                <Button type="primary" @click="addTagConfirm">添加</Button>
+            </div>
+        </Modal>
+        <Modal v-model="addCategoryModalFlag"
+               title="添加目录"
+               ok-text="添加"
+               @on-ok="addCategoryConfirm"
+               @on-cancel="addCategoryCancel"
+               cancel-text="取消">
+            <Form ref="addCategoryModal" :model="addCategoryModalData"
+                  :rules="addTagCategoryFormRule" label-position="left" :label-width="60">
+                <Tooltip placement="top" :style="{width: '100%'}">
+                    <FormItem label="名称:" prop="name">
+                        <Input v-model="addCategoryModalData.name" placeholder="请输入目录名"></Input>
+                    </FormItem>
+                    <div slot="content">
+                        <p>请输入目录名</p>
+                    </div>
+                </Tooltip>
+                <Tooltip placement="top" :style="{width: '100%'}">
+                    <FormItem label="说明:" prop="summary">
+                        <Input type="textarea" :rows="4" placeholder="请输入目录说明"
+                               v-model="addCategoryModalData.summary"></Input>
+                    </FormItem>
+                    <div slot="content">
+                        <p>请输入目录说明</p>
+                    </div>
+                </Tooltip>
+            </Form>
+            <div slot="footer">
+                <Button type="text" @click="addCategoryCancel">取消</Button>
+                <Button type="primary" @click="addCategoryConfirm">添加</Button>
+            </div>
+        </Modal>
     </div>
 </template>
 
@@ -85,6 +184,8 @@
         },
         data() {
             return {
+                addTagModalFlag: false,
+                addCategoryModalFlag: false,
                 editorDrawerFlag: false,
                 articleBrowsePrivilegeList: [],
                 articleCommentPrivilegeList: [],
@@ -106,7 +207,23 @@
                     title: [
                         {required: true, message: '标题不能为空', trigger: 'blur'}
                     ]
-                }
+                },
+                addTagModalData: {
+                    name: '',
+                    summary: '',
+                },
+                addCategoryModalData: {
+                    name: '',
+                    summary: '',
+                },
+                addTagCategoryFormRule: {
+                    name: [
+                        {required: true, message: '名称不能为空', trigger: 'blur'}
+                    ],
+                    summary: [
+                        {required: true, message: '说明不能为空', trigger: 'blur'}
+                    ],
+                },
             }
         },
         mounted() {
@@ -142,6 +259,8 @@
         },
         methods: {
             ...mapActions([
+                'postTagAct',
+                'postCategoryAct',
                 'getArticleBrowsePrivilegeAct',
                 'getArticleCommentPrivilegeAct',
                 'getTagsAct',
@@ -188,11 +307,57 @@
             },
             getFormData() {
                 return this.articleEditorFormData
-            }
+            },
+            addTag() {
+                this.addTagModalFlag = true
+            },
+            addCategory() {
+                this.addCategoryModalFlag = true
+            },
+            addTagConfirm() {
+                this.$refs['addTagModal'].validate(valid => {
+                    if (valid) {
+                        let data = {...this.addTagModalData}
+                        this.postTagAct(data).then(res => {
+                            console.log(res)
+                            this.addTagModalFlag = false
+                            this.$Message.success(res)
+                            this.refreshData()
+                        }).catch(err => {
+                            this.$Message.error(err)
+                        })
+                    }
+                })
+            },
+            addTagCancel() {
+                this.$refs['addTagModal'].resetFields()
+            },
+            addCategoryConfirm() {
+                this.$refs['addCategoryModal'].validate(valid => {
+                    if (valid) {
+                        let data = {...this.addCategoryModalData}
+                        this.postCategoryAct(data).then(res => {
+                            console.log(res)
+                            this.addCategoryModalFlag = false
+                            this.$Message.success(res)
+                            this.refreshData()
+                        }).catch(err => {
+                            this.$Message.error(err)
+                        })
+                    }
+                })
+            },
+            addCategoryCancel() {
+                this.$refs['addCategoryModal'].resetFields()
+            },
         }
     }
 </script>
 
 <style lang="less" scoped>
+
+    .form-label {
+        color: #f00;
+    }
 
 </style>

@@ -54,20 +54,13 @@ export default {
                 })
             })
         },
-        getTagBrowsePrivilegeAct({state, commit, rootGetters}, data) {
+        postTagAct({state, commit, rootGetters}, data) {
             return new Promise((resolve, reject) => {
-                getTagBrowsePrivilege(data).then(res => {
+                postTag(data).then(res => {
+                    // commit('setTag', res.data)
                     resolve(res)
                 }).catch(err => {
-                    reject(err)
-                })
-            })
-        },
-        getTagCommentPrivilegeAct({state, commit, rootGetters}, data) {
-            return new Promise((resolve, reject) => {
-                getTagCommentPrivilege(data).then(res => {
-                    resolve(res)
-                }).catch(err => {
+                    // commit('setTag', {})
                     reject(err)
                 })
             })
