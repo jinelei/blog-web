@@ -1,14 +1,17 @@
 <template>
     <div class="login-container">
-        <template v-if="this.isLogin">
+        <template v-if="!!getToken()">
             <Dropdown class="user-setting-dropdown" transfer trigger="click">
                 <a href="javascript:void(0)">
                     <Avatar icon="ios-person"/>
-                    &nbsp;
-                    {{getNickName}}
                     <Icon type="ios-arrow-down"></Icon>
                 </a>
                 <DropdownMenu slot="list" class="user-setting-dropdown-menu">
+                    <DropdownItem>
+                        <Button type="text" class="username">
+                            {{getNickName}}
+                        </Button>
+                    </DropdownItem>
                     <DropdownItem>
                         <Button type="text">设置</Button>
                     </DropdownItem>
@@ -19,8 +22,9 @@
             </Dropdown>
         </template>
         <template v-else>
-            <Avatar @click="openModal" icon="ios-person"/>
-            <Button ghost type="text" @click="openModal">登录</Button>
+            <Button ghost type="text" @click="openModal">
+                <Avatar icon="ios-person"/>
+            </Button>
         </template>
         <Modal
                 v-model="loginModal"
@@ -72,9 +76,6 @@
             }
         },
         computed: {
-            isLogin() {
-                return this.getToken() == '' ? false : true;
-            },
             getNickName() {
                 return this.getCurrentUser().nickname;
             }
@@ -134,14 +135,21 @@
 
     .login-container {
         display: flex;
+        display: inline-flex;
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        min-width: 180px;
         user-select: auto;
+        margin: 0 0.5rem;
         .tips {
             font-size: 1rem;
             padding-left: 0.5rem;
+        }
+
+        .username {
+            width: 100%;
+            text-align: center;
+            border: 1px red solid;
         }
 
         .user-setting-dropdown {
@@ -150,12 +158,12 @@
             justify-content: center;
             align-items: center;
             a {
-                color: #ff0;
                 display: flex;
                 flex-direction: row;
                 justify-content: center;
                 align-items: center;
-                min-width: 100px;
+                /*min-width: 100px;*/
+                font-size: 0.9rem;
             }
             .user-setting-dropdown-menu {
             }

@@ -1,5 +1,5 @@
 <template>
-    <Row>
+    <Row class-name="container">
         <Col :lg="{ span: 24 }"
              :md="{ span: 22, push: 1, pull: 1 }"
              :sm="{ span: 22, push: 1, pull: 1 }"
@@ -63,5 +63,9 @@
 
 <style lang="less" scoped>
     @import "../common.less";
+
+    .container {
+        background-color: rgb(240, 240, 240, 1);
+    }
 
 </style>
