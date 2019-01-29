@@ -34,76 +34,77 @@
                 width="720"
                 :mask-closable="false"
                 :styles="styles">
-            <Form ref="articleForm"
-                  :rules="articleFormDataRule"
-                  :model="articleFormData">
-                <Row :gutter="32">
-                    <Col span="24">
-                        <FormItem prop="title">
-                            <Input v-model="articleFormData.title"/>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row :gutter="32">
-                    <Col span="11">
-                        <FormItem label="浏览权限:"
-                                  prop="browsePrivilege">
-                            <Select v-model="articleFormData.browsePrivilege" placeholder="请选择目录">
-                                <Option v-for="item in articleBrowsePrivilegeList"
-                                        :value="item" :key="item"
-                                >{{item}}
-                                </Option>
-                            </Select>
-                        </FormItem>
-                    </Col>
-                    <Col span="11" offset="1">
-                        <FormItem label="评论权限:"
-                                  prop="commentPrivilege">
-                            <Select v-model="articleFormData.commentPrivilege" placeholder="请选择目录">
-                                <Option v-for="item in articleCommentPrivilegeList"
-                                        :value="item" :key="item"
-                                >{{item}}
-                                </Option>
-                            </Select>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row :gutter="32">
-                    <Col span="8">
-                        <FormItem label="目录:"
-                                  prop="category">
-                            <Select v-model="articleFormData.category" placeholder="请选择目录">
-                                <Option v-for="item in getCategoriesList"
-                                        :value="item.id" :key="item.id"
-                                >{{item.value}}
-                                </Option>
-                            </Select>
-                        </FormItem>
-                    </Col>
-                    <Col span="16">
-                        <FormItem label="标签:"
-                                  prop="tags">
-                            <Select multiple
-                                    v-model="articleFormData.tags" placeholder="请选择标签">
-                                <Option v-for="item in getTagsList"
-                                        :value="item.id" :key="item.id"
-                                >{{item.value}}
-                                </Option>
-                            </Select>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row :gutter="32">
-                    <Col span="24">
-                        <FormItem prop="content">
-                            <i-editor :autosize="{ minRows: 15, maxRows: 20 }"
-                                      :affix="true"
-                                      :offset-top="30"
-                                      v-model="articleFormData.content"></i-editor>
-                        </FormItem>
-                    </Col>
-                </Row>
-            </Form>
+            <ArticleEditor :articleRef="getArticle()"/>
+            <!--<Form ref="articleForm"-->
+            <!--:rules="articleFormDataRule"-->
+            <!--:model="articleFormData">-->
+            <!--<Row :gutter="32">-->
+            <!--<Col span="24">-->
+            <!--<FormItem prop="title">-->
+            <!--<Input v-model="articleFormData.title"/>-->
+            <!--</FormItem>-->
+            <!--</Col>-->
+            <!--</Row>-->
+            <!--<Row :gutter="32">-->
+            <!--<Col span="11">-->
+            <!--<FormItem label="浏览权限:"-->
+            <!--prop="browsePrivilege">-->
+            <!--<Select v-model="articleFormData.browsePrivilege" placeholder="请选择目录">-->
+            <!--<Option v-for="item in articleBrowsePrivilegeList"-->
+            <!--:value="item" :key="item"-->
+            <!--&gt;{{item}}-->
+            <!--</Option>-->
+            <!--</Select>-->
+            <!--</FormItem>-->
+            <!--</Col>-->
+            <!--<Col span="11" offset="1">-->
+            <!--<FormItem label="评论权限:"-->
+            <!--prop="commentPrivilege">-->
+            <!--<Select v-model="articleFormData.commentPrivilege" placeholder="请选择目录">-->
+            <!--<Option v-for="item in articleCommentPrivilegeList"-->
+            <!--:value="item" :key="item"-->
+            <!--&gt;{{item}}-->
+            <!--</Option>-->
+            <!--</Select>-->
+            <!--</FormItem>-->
+            <!--</Col>-->
+            <!--</Row>-->
+            <!--<Row :gutter="32">-->
+            <!--<Col span="8">-->
+            <!--<FormItem label="目录:"-->
+            <!--prop="category">-->
+            <!--<Select v-model="articleFormData.category" placeholder="请选择目录">-->
+            <!--<Option v-for="item in getCategoriesList"-->
+            <!--:value="item.id" :key="item.id"-->
+            <!--&gt;{{item.value}}-->
+            <!--</Option>-->
+            <!--</Select>-->
+            <!--</FormItem>-->
+            <!--</Col>-->
+            <!--<Col span="16">-->
+            <!--<FormItem label="标签:"-->
+            <!--prop="tags">-->
+            <!--<Select multiple-->
+            <!--v-model="articleFormData.tags" placeholder="请选择标签">-->
+            <!--<Option v-for="item in getTagsList"-->
+            <!--:value="item.id" :key="item.id"-->
+            <!--&gt;{{item.value}}-->
+            <!--</Option>-->
+            <!--</Select>-->
+            <!--</FormItem>-->
+            <!--</Col>-->
+            <!--</Row>-->
+            <!--<Row :gutter="32">-->
+            <!--<Col span="24">-->
+            <!--<FormItem prop="content">-->
+            <!--<i-editor :autosize="{ minRows: 15, maxRows: 20 }"-->
+            <!--:affix="true"-->
+            <!--:offset-top="30"-->
+            <!--v-model="articleFormData.content"></i-editor>-->
+            <!--</FormItem>-->
+            <!--</Col>-->
+            <!--</Row>-->
+            <!--</Form>-->
             <div class="demo-drawer-footer">
                 <Button style="margin-right: 8px" @click="editorDrawerFlag = false">取消</Button>
                 <Button type="primary" @click="updateArticle('articleForm')">更新</Button>
@@ -114,10 +115,14 @@
 
 <script>
     import {mapGetters, mapActions} from 'vuex'
+    import {ArticleEditor} from '@/components/article-editor'
     import {DateFormat} from "@/libs/utils"
 
     export default {
         name: "Article",
+        components: {
+            ArticleEditor
+        },
         data() {
             return {
                 editorDrawerFlag: false,
@@ -151,6 +156,7 @@
             }
         },
         mounted() {
+            this.articleFormData = {...this.getArticle()}
             this.refreshData()
         },
         computed: {
@@ -259,35 +265,34 @@
             },
             openEditorDrawer() {
                 this.editorDrawerFlag = true
-                this.articleFormData = {...this.getArticle()}
-                this.$refs['articleForm'].resetFields()
-                if (!!this.getArticle()
-                    && !!this.getArticle().category
-                    && !!this.getArticle().category.categoryId) {
-                    this.articleFormData.category = this.getArticle().category.categoryId
-                }
-                this.articleFormData.tags = []
-                for (let i in this.getArticle().tags) {
-                    this.articleFormData.tags.push(this.getArticle().tags[i].tagId)
-                }
-                this.getArticleBrowsePrivilegeAct().then(res => {
-                    this.articleBrowsePrivilegeList = res.data
-                }).catch(err => {
-                    console.error(err)
-                })
-                this.getArticleCommentPrivilegeAct().then(res => {
-                    this.articleCommentPrivilegeList = res.data
-                }).catch(err => {
-                    console.error(err)
-                })
-                this.getTagsAct({page: 0, size: 100}).then(res => {
-                }).catch(err => {
-                    console.error(err)
-                })
-                this.getCategoriesAct({page: 0, size: 100}).then(res => {
-                }).catch(err => {
-                    console.error(err)
-                })
+                // this.$refs['articleForm'].resetFields()
+                // if (!!this.getArticle()
+                //     && !!this.getArticle().category
+                //     && !!this.getArticle().category.categoryId) {
+                //     this.articleFormData.category = this.getArticle().category.categoryId
+                // }
+                // this.articleFormData.tags = []
+                // for (let i in this.getArticle().tags) {
+                //     this.articleFormData.tags.push(this.getArticle().tags[i].tagId)
+                // }
+                // this.getArticleBrowsePrivilegeAct().then(res => {
+                //     this.articleBrowsePrivilegeList = res.data
+                // }).catch(err => {
+                //     console.error(err)
+                // })
+                // this.getArticleCommentPrivilegeAct().then(res => {
+                //     this.articleCommentPrivilegeList = res.data
+                // }).catch(err => {
+                //     console.error(err)
+                // })
+                // this.getTagsAct({page: 0, size: 100}).then(res => {
+                // }).catch(err => {
+                //     console.error(err)
+                // })
+                // this.getCategoriesAct({page: 0, size: 100}).then(res => {
+                // }).catch(err => {
+                //     console.error(err)
+                // })
             },
             updateArticle(name) {
                 this.$refs[name].validate(valdate => {
